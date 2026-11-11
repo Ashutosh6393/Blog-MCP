@@ -1,4 +1,4 @@
-# CONTEXT.md — portfolio-mcp
+# CONTEXT.md — blog-mcp
 
 What we're building and why. Read this first in any session.
 

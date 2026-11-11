@@ -13,3 +13,10 @@ build/
 .claude/skills/hallmark
 skills-lock.json
 .hallmark
+.agents
+.claude
+docs/
+specs/
+tech-stack.yaml
+AGENTS.md
+CLAUDE.md

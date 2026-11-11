@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "portfolio-mcp",
+      "name": "blog-mcp",
       "dependencies": {
         "@modelcontextprotocol/server": "~2.0.0",
         "elysia": "^1.4.29",

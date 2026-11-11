@@ -1,4 +1,4 @@
-# portfolio-mcp
+# blog-mcp
 
 A remote MCP server for publishing to [ashutoshverma.dev](https://ashutoshverma.dev) from
 any Claude client — including a phone.
@@ -27,7 +27,7 @@ from here:
 |---|---|---|
 | `portfolio` | The public site, published MDX | Opens PRs. Never commits to main |
 | `workshop` (private) | Drafts, skills, templates, social post archive | Commits straight to main |
-| **`portfolio-mcp`** | **The server. This repo** | — |
+| **`blog-mcp`** | **The server. This repo** | — |
 
 No repo is ever cloned. Every read and write goes through the GitHub API, because a
 checkout on disk means stale state and surprise conflicts.

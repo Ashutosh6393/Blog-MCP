@@ -1,8 +1,10 @@
-# Fly config for the portfolio MCP server.
+# Fly config for the blog-mcp server.
 # Decision and rationale: docs/adr/001-server-runtime-and-shape.md.
 
-# "portfolio-mcp" was already taken — Fly app names are global. The name is
-# cosmetic here; the real hostname is mcp.ashutoshverma.dev via CNAME.
+# The Fly app stays "ashutoshverma-mcp". The first name tried, "portfolio-mcp",
+# was already taken — Fly app names are global — and renaming the app would
+# point deploys at a different machine. The name is cosmetic here; the real
+# hostname is mcp.ashutoshverma.dev via CNAME.
 app = "ashutoshverma-mcp"
 primary_region = "bom"
 

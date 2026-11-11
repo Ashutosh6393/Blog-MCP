@@ -16,7 +16,7 @@ export function createHandler(deps: {
 	github: Github;
 }): McpHttpHandler {
 	return createMcpHandler(() => {
-		const server = new McpServer({ name: "portfolio-mcp", version: "0.1.0" });
+		const server = new McpServer({ name: "blog-mcp", version: "0.1.0" });
 		registerListContent(server, deps);
 		registerGetSkill(server, deps);
 		registerSaveDraft(server, deps);

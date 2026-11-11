@@ -76,12 +76,12 @@ describe("listContent", () => {
 	test("T-12: lists projects with stack and status carried through", async () => {
 		const projects = [
 			{
-				slug: "portfolio-mcp",
-				title: "Portfolio MCP",
+				slug: "blog-mcp",
+				title: "Blog MCP",
 				summary: "An MCP server for the site.",
 				stack: ["TypeScript", "Bun"],
 				status: "live",
-				repo: "ashutosh625/portfolio-mcp",
+				repo: "ashutosh625/blog-mcp",
 			},
 			{
 				slug: "another-project",
@@ -110,7 +110,7 @@ describe("listContent", () => {
 		if (!result.ok) throw new Error("expected ok result");
 		expect(result.items).toHaveLength(2);
 		expect(result.items.map((item) => item.slug)).toEqual([
-			"portfolio-mcp",
+			"blog-mcp",
 			"another-project",
 		]);
 		expect(result.items.map((item) => item.stack)).toEqual([

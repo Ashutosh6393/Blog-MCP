@@ -43,12 +43,12 @@ describe("projectListSchema", () => {
 	test("accepts a realistic project entry", () => {
 		const projects = [
 			{
-				slug: "portfolio-mcp",
-				title: "Portfolio MCP",
+				slug: "blog-mcp",
+				title: "Blog MCP",
 				summary: "An MCP server for the site.",
 				stack: ["TypeScript", "Bun"],
 				status: "live",
-				repo: "ashutosh625/portfolio-mcp",
+				repo: "ashutosh625/blog-mcp",
 			},
 		];
 
@@ -58,12 +58,12 @@ describe("projectListSchema", () => {
 	test("accepts a project entry with the optional fields present", () => {
 		const projects = [
 			{
-				slug: "portfolio-mcp",
-				title: "Portfolio MCP",
+				slug: "blog-mcp",
+				title: "Blog MCP",
 				summary: "An MCP server for the site.",
 				stack: ["TypeScript", "Bun"],
 				status: "live",
-				repo: "ashutosh625/portfolio-mcp",
+				repo: "ashutosh625/blog-mcp",
 				demo: "https://example.com",
 				show: true,
 				order: 1,
