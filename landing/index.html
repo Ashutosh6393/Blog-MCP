@@ -6,7 +6,7 @@
 		<title>blog-mcp — write it anywhere, merge it yourself</title>
 		<meta
 			name="description"
-			content="A remote MCP server for ashutoshverma.dev. Six tools read the site, serve the drafting rules, save drafts, and open a pull request. It never merges."
+			content="A remote MCP server for ashutoshverma.dev. Any client that speaks MCP can read the site, save a draft, and open a pull request. It never merges."
 		/>
 		<!-- Favicon · inline SVG, so it costs no request and no file. A tab strip is
 		     16px wide — the wordmark is unreadable there, one letter is not. -->
@@ -23,7 +23,7 @@
 		<meta property="og:title" content="Write it anywhere. Merge it yourself." />
 		<meta
 			property="og:description"
-			content="A remote MCP server for ashutoshverma.dev. Six tools read the site, serve the drafting rules, save drafts, and open a pull request. It never merges."
+			content="A remote MCP server for ashutoshverma.dev. Any client that speaks MCP can read the site, save a draft, and open a pull request. It never merges."
 		/>
 		<meta property="og:image" content="https://mcp.ashutoshverma.dev/og.png" />
 		<meta property="og:image:width" content="1200" />
@@ -59,9 +59,9 @@
 
 				<p class="lede hero__lede">
 					A remote MCP server for
-					<a class="link-inline" href="https://ashutoshverma.dev">ashutoshverma.dev</a> to read, create, delete drafts posts and publish them.<br><br> Six tools read
-					the site, serve the drafting rules, save drafts, and open a pull request. Publishing
-					stops at the pull request — the merge button is somewhere the model cannot reach.
+					<a class="link-inline" href="https://ashutoshverma.dev">ashutoshverma.dev</a>.
+					Any client that speaks MCP can read the site, save a draft, and open a pull
+					request. Publishing stops at the pull request. The merge stays with you.
 				</p>
 
 				<ul class="hero__stages">
@@ -100,10 +100,10 @@
 						<h3 class="stage__title"><span class="stage__num">1.0</span>Draft</h3>
 						<div class="stage__body">
 							<p>
-								In any Claude client — Code, Desktop, the browser, the phone.
+								In any client that speaks MCP: a desktop app, a browser, a phone.
 								<span class="mono">get_skill</span> serves the rules for the kind of content
 								you are writing, plus <span class="mono">be-human</span>, the voice. The model
-								does the writing; the server only moves bytes.
+								does the writing. The server only moves bytes.
 							</p>
 						</div>
 					</li>
@@ -124,9 +124,11 @@
 						<h3 class="stage__title"><span class="stage__num">3.0</span>Publish</h3>
 						<div class="stage__body">
 							<p>
-								<span class="mono">publish</span> validates the draft against the site’s own
-								live schema, cuts a branch on <span class="mono">portfolio</span>, and opens a
-								pull request. Say “publish it” twice and you still get exactly one.
+								<span class="mono">publish</span> checks the draft against the site's live
+								schema, cuts a branch on <span class="mono">portfolio</span>, and opens a
+								pull request. The server does not parse the MDX. The Vercel preview on that
+								pull request is the check. Saying "publish it" twice still leaves one pull
+								request.
 							</p>
 						</div>
 					</li>
@@ -136,12 +138,63 @@
 						<div class="stage__body">
 							<p>
 								Vercel builds a preview of the pull request. You read the preview, then you
-								press merge. There is no tool for this stage, and that is the point — the model
-								has no path to that button.
+								press merge. There is no tool for this stage. The model has no path to that
+								button.
 							</p>
 						</div>
 					</li>
 				</ol>
+			</section>
+
+			<!-- Three repos. The page already has a spec table; this one is the same pattern. -->
+			<section class="wrap section">
+				<h2 class="section__title">Three repos, one process</h2>
+				<p class="lede lede--spaced">
+					This repo is the server. The site and the drafts live in two other GitHub repos.
+					Nothing is cloned. A client calls the tools over HTTP, and the server reads and
+					writes through the GitHub API and the site's JSON routes.
+				</p>
+
+				<table class="spec">
+					<thead>
+						<tr>
+							<th class="u-label" scope="col">Repo</th>
+							<th class="u-label" scope="col">Holds</th>
+							<th class="u-label" scope="col">This server</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">portfolio</th>
+							<td data-label="Holds">The public site and published MDX</td>
+							<td data-label="This server">Opens a pull request. Never commits to main</td>
+						</tr>
+						<tr>
+							<th scope="row">workshop</th>
+							<td data-label="Holds">Drafts, skills, templates, the social-post archive</td>
+							<td data-label="This server">Reads, and commits straight to main</td>
+						</tr>
+						<tr>
+							<th scope="row">blog-mcp</th>
+							<td data-label="Holds">This server</td>
+							<td data-label="This server">Runs on Fly.io, at mcp.ashutoshverma.dev</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<div class="section__body measure">
+					<p>
+						Inside the process the chain is <span class="mono">tools</span>, then
+						<span class="mono">services</span>, then <span class="mono">lib</span>. A tool
+						only speaks MCP. A service decides. <span class="mono">lib</span> talks to GitHub
+						and the site.
+					</p>
+					<p>
+						<span class="mono">GET /health</span> is the liveness probe and does no I/O. The
+						deep check and the MCP endpoint sit behind an unguessable path. A wrong secret
+						matches no route and looks like any other 404.
+					</p>
+				</div>
 			</section>
 
 			<!-- Tools · F3 tabular spec sheet. Six rows, hairline rules, no cards. -->
@@ -163,13 +216,13 @@
 					<tbody>
 						<tr>
 							<th scope="row">list_content</th>
-							<td data-label="Does">An index of writings, projects and posts</td>
-							<td data-label="Reach">site · read</td>
+							<td data-label="Does">Published catalogue from the site, or draft slugs from workshop</td>
+							<td data-label="Reach">site or workshop · read</td>
 						</tr>
 						<tr>
 							<th scope="row">get_content</th>
-							<td data-label="Does">One item, whole, by slug</td>
-							<td data-label="Reach">site · read</td>
+							<td data-label="Does">One draft, or one published item, by slug</td>
+							<td data-label="Reach">site or workshop · read</td>
 						</tr>
 						<tr>
 							<th scope="row">get_skill</th>
@@ -258,12 +311,7 @@
 					An idea on a train now reaches a preview URL with no laptop involved.
 				</p>
 				<div class="close__links">
-					<a class="link" href="https://github.com/Ashutosh6393/Portfolio-MCP">Read the source →</a>
-					<a
-						class="link"
-						href="https://github.com/Ashutosh6393/Portfolio-MCP/blob/main/docs/adr/mcp-design.md"
-						>Read the design →</a
-					>
+					<a class="link" href="https://github.com/Ashutosh6393/Portfolio-MCP">Read the source code →</a>
 					<a class="link" href="https://ashutoshverma.dev">See the site →</a>
 				</div>
 			</section>
@@ -272,9 +320,7 @@
 		<!-- Footer · Ft4 dense colophon. Credits, not a sitemap. -->
 		<footer class="wrap colophon">
 			<p>
-				blog-mcp — a remote MCP server for one writer, running at mcp.ashutoshverma.dev.
-				Three repos are involved: portfolio, the public site; workshop, private, holding drafts,
-				skills and templates; and this one, the server. Built by
+			Built by
 				<a class="link-inline" href="https://ashutoshverma.dev">Ashutosh Verma</a>, 2026.
 				
 			</p>
